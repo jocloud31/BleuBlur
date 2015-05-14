@@ -1,10 +1,11 @@
 import pygame
+from pygame.sprite import Sprite
 from colors import *
 
 
-class Block(pygame.sprite.Sprite):
-	def _init__(self, color=bleu, width=50, height=50):
-		super(self.__class__, self).__init__()
+class Block(Sprite):
+	def __init__(self, color=bleu, width=50, height=50):
+		Sprite.__init__(self)
 
 		self.image = pygame.Surface((width, height))
 
