@@ -12,15 +12,18 @@ class Block(Sprite):
 		self.image.fill(self.color)
 
 		self.rect = self.image.get_rect()
-		self.hspeed = float(0)
-		self.vspeed = 0.0
-		self.target_hspeed = float(0)
-		self.target_vspeed = 0.0
+		self.hspeed = int(0)
+		self.vspeed = int(0)
+		self.target_hspeed = 0
+		self.target_vspeed = 0
 		block_group.append(self)
 
 	def change_speed(self, hspeed_change, vspeed_change):
-		self.target_hspeed += hspeed_change
-		self.target_vspeed += vspeed_change
+		if(hspeed_change is not "x"):
+			self.target_hspeed = hspeed_change
+
+		if(vspeed_change is not "x"):
+			self.target_vspeed = vspeed_change
 
 	def set_position(self, x, y):
 		self.rect.x = x
@@ -33,11 +36,10 @@ class Block(Sprite):
 			self.hspeed = 0
 		if -.1 < self.vspeed < .1:
 			self.vspeed = 0"""
-		self.rect.x += self.hspeed
-		self.rect.y += self.vspeed
+		self.rect.x += int(self.hspeed)
+		self.rect.y += int(self.vspeed)
 		self.set_position(self.rect.x, self.rect.y)
-		print self.hspeed
-		print self.vspeed
+		print "H: {0} V: {1}".format(self.hspeed, self.vspeed)
 
 	def draw_to_screen(self):
 		window.blit(self.image, [self.rect.x, self.rect.y])
@@ -81,29 +83,29 @@ if __name__ == "__main__":
 					running = False
 
 				if event.key == pygame.K_w:
-					sanic.change_speed(0, -5)
+					sanic.change_speed("x", -5)
 
 				if event.key == pygame.K_s:
-					sanic.change_speed(0, 5)
+					sanic.change_speed("x", 5)
 
 				if event.key == pygame.K_a:
-					sanic.change_speed(-5, 0)
+					sanic.change_speed(-5, "x")
 
 				if event.key == pygame.K_d:
-					sanic.change_speed(5, 0)
+					sanic.change_speed(5, "x")
 
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_w:
-					sanic.target_vspeed = 0
+					sanic.change_speed("x", 0)
 
 				if event.key == pygame.K_s:
-					sanic.target_vspeed = 0
+					sanic.change_speed("x", 0)
 
 				if event.key == pygame.K_a:
-					sanic.target_hspeed = float(0)
+					sanic.change_speed(0, "x")
 
 				if event.key == pygame.K_d:
-					sanic.target_hspeed = float(0)
+					sanic.change_speed(0, "x")
 
 		clock.tick(FPS)
 		sanic.update_block()
